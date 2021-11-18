@@ -57,7 +57,7 @@ namespace HelloMVCWorld.Controllers
         [HttpGet]
         [Route("/QueryParametersTesting/{i?}")]
         // /QueryParametersTesting will map Here with i=0 ,/QueryParametersTesting?i=1 will map Here with i=1 , /QueryParametersTesting/1 will map Here with i =1 , /QueryParametersTesting/1?i=2 will map Here with i=2
-        public IActionResult QueryParametersTesting([FromQuery] int i) // From QueryString tells That Take Value from QueryString Passed in  URL , if QueryString is not defined , then give Priority to  Route Template  Value
+        public IActionResult QueryParametersTesting([FromQuery] int i) // FromQuery tells That Take Value FromQuery Passed in  URL , if FromQuery is not defined , then give Priority to  Route Template  Value
         {
             return View(new WebUser() { FirstName = "John", LastName = "Doe" });
         }
