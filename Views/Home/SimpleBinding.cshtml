@@ -1,0 +1,28 @@
+﻿@model HelloMVCWorld.Models.WebUser
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />    
+</head>
+<body>
+    @using (var form = Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(model => model.FirstName)
+            @Html.TextBoxFor(model => model.FirstName)
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.LastName)
+            @Html.TextBoxFor(model => model.LastName)
+        </div>
+
+        <input type="submit" value="Submit" />
+    }
+</body>
+</html>

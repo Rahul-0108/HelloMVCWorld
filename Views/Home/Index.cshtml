@@ -1,0 +1,34 @@
+﻿@using Microsoft.Extensions.Configuration
+@inject IConfiguration Configuration
+
+@using Microsoft.Extensions.Options
+@inject IOptions<HelloMVCWorld.Models.IOptionsValues> OptionsAccessor   
+
+@model HelloMVCWorld.Models.Movie
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@(Configuration.GetSection("Website").GetValue<string>("Title"))</title>  @*Demos how to Fetch Values from  Appsettings in  Views*@
+</head>
+<body>
+
+    The movie <b>@Model.Title</b> was released @Model.ReleaseDate.ToLongDateString()
+
+    <p>@ViewData["Data1"]</p>
+    <p>@ViewBag.Data2</p>
+
+    @for (int i = 0; i < 3; i++)
+    {
+        @await Html.PartialAsync("_Partial", Model, new ViewDataDictionary(ViewData) { { "index", i } })//  Passing Data to parial View while Reendering  the  Partial  View
+    }
+
+    IOptions Demos @(OptionsAccessor.Value.Value1) @*Demos how to Fetch Values from  Appsettings in  Views using  IOptions Pattern*@
+    @*Demos IOptions Dependency Injection https://asp.mvc-tutorial.com/core-concepts/options/*@
+</body>
+</html>
