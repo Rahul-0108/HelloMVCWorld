@@ -23,15 +23,15 @@ namespace HelloMVCWorld.Controllers
             _configuration = configuration;
             _memoryCache = memoryCache;
         }
-        public IActionResult Index()
+        public IActionResult Index(int i) // LocalHost1234/Home and LocalHost:1234 will Map here with i=0 , LocalHost:1234/1 will not map here ,  LocalHost:1234?i=1 will  Map  Here with i=1
         {
             string iConfigurationValue = _configuration.GetValue<string>("Type"); // Demos How to Fetch values from AppSettings https://asp.mvc-tutorial.com/core-concepts/configuration/
             string iConfigurationValue2 = _configuration.GetSection("Website").GetValue<string>("Title"); // Demos How to Fetch values from AppSettings Json Object
 
             // HttpContext.Request - all members related to the current request, e.g.the QueryString, Forms and so on.
             // HttpContext.Response - all members related to the Response about to be delivered, e.g.Cookies and response headers
-            //HttpContext.Session - all members related to dealing with Session(generally used to persist data between requests)
-            //HttpContext.User - all members related to dealing with a(potentially) authenticated user
+            // HttpContext.Session - all members related to dealing with Session(generally used to persist data between requests)
+            // HttpContext.User - all members related to dealing with a(potentially) authenticated user
             HttpContext httpContext = HttpContext;
 
             HttpRequest request = Request; // All members related to the current request, e.g.the QueryString, Forms and so on
@@ -48,7 +48,7 @@ namespace HelloMVCWorld.Controllers
         [HttpGet]
         [Route("/SimpleBinding/{i}")]
 
-        // /SimpleBinding won't map here , SimpleBinding?i=1 won't map here , /SimpleBinding/1 will map Here with i=1 , /SimpleBinding/1?i=2 will map Here with i=1
+        // LocalHost:1234/SimpleBinding won't map here , SimpleBinding?i=1 won't map here , /SimpleBinding/1 will map Here with i=1 , /SimpleBinding/1?i=2 will map Here with i=1
         public IActionResult SimpleBinding(int i) 
         {
             return View(new WebUser() { FirstName = "John", LastName = "Doe" });
@@ -61,6 +61,23 @@ namespace HelloMVCWorld.Controllers
         {
             return Content("QueryParameters Testing");
         }
+
+        [HttpGet]
+        [Route("/QueryParametersTesting2/{i?}")]
+        // /QueryParametersTesting2 will map Here with i=0 ,/QueryParametersTesting2?i=1 will map Here with i=1 , /QueryParametersTesting2/1 will  map Here with i=1, /QueryParametersTesting2/1?i=2 will  map Here with i=1
+        public IActionResult QueryParametersTesting2(int i) 
+        {
+            return Content("QueryParameters2 Testing");
+        }
+
+        [HttpGet]
+        [Route("/QueryParametersTesting4")]
+        // /QueryParametersTesting4 will map Here with i=0 ,/QueryParametersTesting4?i=1 will map Here with i=1 , /QueryParametersTesting2/1  will not map  Here, /QueryParametersTesting4/1?i=2 will not map  Here
+        public IActionResult QueryParametersTesting4(int i)
+        {
+            return Content("QueryParameters4 Testing");
+        }
+
 
         [HttpPost]
         public IActionResult SimpleBinding(WebUser webUser) // Same Action Name is Required as  Form Posts  Data to  Same  Action   Name
