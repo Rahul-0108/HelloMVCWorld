@@ -71,7 +71,8 @@ namespace HelloMVCWorld
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapDefaultControllerRoute();
+                endpoints.MapDefaultControllerRoute(); //   Adds endpoints for controller actions to the Microsoft.AspNetCore.Routing.IEndpointRouteBuilder
+                                                       //   and adds the default route {controller=Home}/{action=Index}/{id?}.
             });
         }
     }

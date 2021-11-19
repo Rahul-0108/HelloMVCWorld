@@ -46,7 +46,7 @@ namespace HelloMVCWorld.Controllers
         }
 
         [HttpGet]
-        [Route("/SimpleBinding/{i}")]
+        [Route("/SimpleBinding/{i}")] // This is the only Route to get to this  Action , Default Routing won't work  After  Applying  Attribute  Routing 
 
         // LocalHost:1234/SimpleBinding won't map here , SimpleBinding?i=1 won't map here , /SimpleBinding/1 will map Here with i=1 , /SimpleBinding/1?i=2 will map Here with i=1
         public IActionResult SimpleBinding(int i) 
@@ -56,7 +56,7 @@ namespace HelloMVCWorld.Controllers
 
         [HttpGet]
         [Route("/QueryParametersTesting/{i?}")]
-        // /QueryParametersTesting will map Here with i=0 ,/QueryParametersTesting?i=1 will map Here with i=1 , /QueryParametersTesting/1 will map Here with i =1 , /QueryParametersTesting/1?i=2 will map Here with i=2
+        // /QueryParametersTesting will map Here with i=0 ,/QueryParametersTesting?i=1 will map Here with i=1 , /QueryParametersTesting/1 will map Here with i =0 , /QueryParametersTesting/1?i=2 will map Here with i=2
         public IActionResult QueryParametersTesting([FromQuery] int i) // FromQuery tells That Take Value FromQuery Passed in  URL , if FromQuery is not defined , then give Priority to  Route Template  Value
         {
             return Content("QueryParameters Testing");
