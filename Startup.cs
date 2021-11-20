@@ -56,7 +56,8 @@ namespace HelloMVCWorld
 
             app.UseSession();  // Maintain  Session  Data https://asp.mvc-tutorial.com/httpcontext/sessions/
 
-            app.UseStatusCodePagesWithRedirects("/error404.png"); // redirect to errr404.png if runtime HTTP error occurs(not runtime exceptions)
+            //app.UseStatusCodePagesWithRedirects("/error404.png"); // redirect to errr404.png if runtime HTTP error occurs(not runtime exceptions)
+            app.UseStatusCodePagesWithRedirects("/Error/Error404Handling?statusCode={0}"); // Handle error 404 error through  Controller
 
             app.UseStaticFiles(); // static File in wwwroot Folder can be accessed using /staticFile.jpg
 

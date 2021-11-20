@@ -17,7 +17,7 @@
     <title>@(Configuration.GetSection("Website").GetValue<string>("Title"))</title>  @*Demos how to Fetch Values from  Appsettings in  Views*@
 </head>
 <body>
-
+ 
     The movie <b>@Model.Title</b> was released @Model.ReleaseDate.ToLongDateString()
 
     <p>@ViewData["Data1"]</p>
@@ -25,7 +25,7 @@
 
     @for (int i = 0; i < 3; i++)
     {
-        @await Html.PartialAsync("_Partial", Model, new ViewDataDictionary(ViewData) { { "index", i } })//  Passing Data to parial View while Reendering  the  Partial  View
+        @await Html.PartialAsync("_Partial", Model, new ViewDataDictionary(ViewData) { { "index", i } })//  Passing Data to parial View  while  Rendering  the  Partial  View
     }
 
     IOptions Demos @(OptionsAccessor.Value.Value1) @*Demos how to Fetch Values from  Appsettings in  Views using  IOptions Pattern*@

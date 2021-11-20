@@ -22,5 +22,18 @@ namespace HelloMVCWorld.Controllers
             }
             return Content("We're so sorry, but an error just occurred! We'll try to get it fixed ASAP!");
         }
+
+        public IActionResult Error404Handling (int statusCode)
+        {
+            if (statusCode == 404)
+            {
+                return Content("not found " + statusCode);
+            }
+
+            else
+            {
+                return Content(statusCode.ToString());
+            }
+        }
     }
 }

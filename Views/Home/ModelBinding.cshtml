@@ -1,0 +1,36 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@* Shall Add  All  Tag  Helpers *@
+@model HelloMVCWorld.Models.WebUser
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+</head>
+<body>
+    @using (var form = Html.BeginForm())
+    {
+        <div>
+            @Html.LabelFor(model => model.FirstName) @*Displays property Name, Here FirstName*@
+            @* @Html.TextBox("FirstName") Binds to  FirstName Property*@
+            @Html.CheckBox("isMale") @*Binds to  isMale*@
+
+            @Html.RadioButton("FirstName", "M") @*Binds to  FirstNameProperty , If Selected , will Send Value M to  Server on  Submitting the Form*@
+            @Html.RadioButton("FirstName", "F") @*Binds to  FirstNameProperty*@
+
+            <select asp-items="@(Html.GetEnumSelectList<HelloMVCWorld.Models.DayOfWeek>())" asp-for="day"></select>  @* day is a  Property in  the WebUser Model whose value is  Binded  to  the  Select  Tag*@
+        </div>
+
+        <div>
+            @Html.LabelFor(model => model.LastName)
+            @Html.TextBoxFor(model => model.LastName)
+        </div>
+
+        <input type="submit" value="Submit" />
+    }
+</body>
+</html>

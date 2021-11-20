@@ -51,7 +51,7 @@ namespace HelloMVCWorld.Controllers
         // LocalHost:1234/SimpleBinding won't map here , SimpleBinding?i=1 won't map here , /SimpleBinding/1 will map Here with i=1 , /SimpleBinding/1?i=2 will map Here with i=1
         public IActionResult SimpleBinding(int i) 
         {
-            return View(new WebUser() { FirstName = "John", LastName = "Doe" });
+            return Content("Routing Binding " + i); ;
         }
 
         [HttpGet]
@@ -78,9 +78,14 @@ namespace HelloMVCWorld.Controllers
             return Content("QueryParameters4 Testing");
         }
 
+        [HttpGet]
+        public IActionResult ModelBinding()
+        {
+            return View(new WebUser() { FirstName = "John", day = Models.DayOfWeek.Tuesday , isMale = true, LastName = "Doe" });
+        }
 
         [HttpPost]
-        public IActionResult SimpleBinding(WebUser webUser) // Same Action Name is Required as  Form Posts  Data to  Same  Action   Name
+        public IActionResult ModelBinding(WebUser webUser) // Same Action Name is Required as  Form Posts  Data to  Same  Action   Name
         {
             //TODO: Update in DB here...
             //return Content($"User {webUser.FirstName} updated!");
