@@ -6,7 +6,7 @@
 
 @model HelloMVCWorld.Models.Movie
 @{
-    Layout = null;
+    Layout = null; // Override the Default Layout
 }
 
 <!DOCTYPE html>
@@ -17,7 +17,7 @@
     <title>@(Configuration.GetSection("Website").GetValue<string>("Title"))</title>  @*Demos how to Fetch Values from  Appsettings in  Views*@
 </head>
 <body>
- 
+
     The movie <b>@Model.Title</b> was released @Model.ReleaseDate.ToLongDateString()
 
     <p>@ViewData["Data1"]</p>
@@ -30,5 +30,7 @@
 
     IOptions Demos @(OptionsAccessor.Value.Value1) @*Demos how to Fetch Values from  Appsettings in  Views using  IOptions Pattern*@
     @*Demos IOptions Dependency Injection https://asp.mvc-tutorial.com/core-concepts/options/*@
+
+ 
 </body>
 </html>

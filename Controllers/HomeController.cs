@@ -11,14 +11,14 @@ using Microsoft.Extensions.Options;
 
 namespace HelloMVCWorld.Controllers
 {
-  
+
     public class HomeController : Controller
     {
         private readonly IConfiguration _configuration;
 
         private IMemoryCache _memoryCache;
 
-        public HomeController(IConfiguration configuration , IOptions<IOptionsValues> websiteOptions , IMemoryCache memoryCache)
+        public HomeController(IConfiguration configuration, IOptions<IOptionsValues> websiteOptions, IMemoryCache memoryCache, ILog log) // DI Link https://www.tutorialsteacher.com/core/dependency-injection-in-aspnet-core
         {
             _configuration = configuration;
             _memoryCache = memoryCache;
@@ -49,7 +49,7 @@ namespace HelloMVCWorld.Controllers
         [Route("/SimpleBinding/{i}")] // This is the only Route to get to this  Action , Default Routing won't work  After  Applying  Attribute  Routing 
 
         // LocalHost:1234/SimpleBinding won't map here , SimpleBinding?i=1 won't map here , /SimpleBinding/1 will map Here with i=1 , /SimpleBinding/1?i=2 will map Here with i=1
-        public IActionResult SimpleBinding(int i) 
+        public IActionResult SimpleBinding(int i)
         {
             return Content("Routing Binding " + i); ;
         }
@@ -65,7 +65,7 @@ namespace HelloMVCWorld.Controllers
         [HttpGet]
         [Route("/QueryParametersTesting2/{i?}")]
         // /QueryParametersTesting2 will map Here with i=0 ,/QueryParametersTesting2?i=1 will map Here with i=1 , /QueryParametersTesting2/1 will  map Here with i=1, /QueryParametersTesting2/1?i=2 will  map Here with i=1
-        public IActionResult QueryParametersTesting2(int i) 
+        public IActionResult QueryParametersTesting2(int i)
         {
             return Content("QueryParameters2 Testing");
         }
@@ -81,11 +81,11 @@ namespace HelloMVCWorld.Controllers
         [HttpGet]
         public IActionResult ModelBinding()
         {
-            return View(new WebUser() { FirstName = "John", day = Models.DayOfWeek.Tuesday , isMale = true, LastName = "Doe" });
+            return View(new WebUser() { FirstName = "John", day = Models.DayOfWeek.Tuesday, isMale = true, LastName = "Doe" });
         }
 
         [HttpPost]
-        public IActionResult ModelBinding(WebUser webUser) // Same Action Name is Required as  Form Posts  Data to  Same  Action   Name
+        public IActionResult ModelBinding([Bind("FirstName")] WebUser webUser) // Same Action Name is Required as  Form Posts  Data to  Same  Action   Name
         {
             //TODO: Update in DB here...
             //return Content($"User {webUser.FirstName} updated!");
@@ -121,10 +121,25 @@ namespace HelloMVCWorld.Controllers
             return Content(cachedMessage);
         }
 
+
         [HttpGet]
         public IActionResult throwException()
         {
             throw new Exception("This is an Exception to demo Exception Handling in Asp.net Core");
+        }
+
+        public IActionResult ActionDIInjection([FromServices] ILog log) // https://www.tutorialsteacher.com/core/dependency-injection-in-aspnet-core
+        {
+            IServiceProvider services = HttpContext.RequestServices; //  Get  ServiceProvider  Instance to the get the Required  Services
+            var logger = (ILog)services.GetService(typeof(ILog));
+
+            return Content("This is how We can do DI in an  Action");
+        }
+
+        public ObjectResult apiData()
+        {
+            var employee = new WebUser() { FirstName = "John", day = Models.DayOfWeek.Tuesday, isMale = true, LastName = "Doe" };
+            return new ObjectResult(employee);
         }
     }
 }

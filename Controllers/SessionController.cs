@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Text;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HelloMVCWorld.Controllers
 {
+    [Log] // Custom  Filter  https://www.tutorialsteacher.com/mvc/action-filters-in-mvc
     public class SessionController : Controller  // Maintain  Session  Data https://asp.mvc-tutorial.com/httpcontext/sessions/
     {
         public IActionResult Index()

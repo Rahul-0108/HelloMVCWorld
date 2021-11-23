@@ -1,7 +1,11 @@
 ﻿@model string
-<h1>Sessions</h1>
+<h1>Sessions</h1>  @* Applied to  RenderBody in _Layout View*@
 <form asp-action="/Index" method="post">
     Your name:
     <input type="text" name="name" value="@Model" />
     <input type="submit" value="Save" />
 </form>
+
+@section Section1 {  @* Applied to  Section1 in _Layout View*@
+<h1>Section 1  Data</h1>
+} 

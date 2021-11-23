@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using HelloMVCWorld.CustomMiddleware;
 using HelloMVCWorld.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +12,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.FileProviders;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 
 namespace HelloMVCWorld
@@ -38,12 +40,35 @@ namespace HelloMVCWorld
 
             services.AddMvc(); // We need to add MVC support to it, to let the .NET framework and the web server know how to process incoming requests
 
+
+            // Dependency  Injection  https://www.tutorialsteacher.com/core/dependency-injection-in-aspnet-core
+            services.Add(new ServiceDescriptor(typeof(ILog), new MyConsoleLogger()));    // singleton
+
+            // services.Add(new ServiceDescriptor(typeof(ILog), typeof(MyConsoleLogger), ServiceLifetime.Transient)); // Transient
+
+            // services.Add(new ServiceDescriptor(typeof(ILog), typeof(MyConsoleLogger), ServiceLifetime.Scoped));    // Scoped
+
+            // services.AddSingleton<ILog, MyConsoleLogger>();
+            // services.AddSingleton(typeof(ILog), typeof(MyConsoleLogger));
+
+            // services.AddTransient<ILog, MyConsoleLogger>();
+            // services.AddTransient(typeof(ILog), typeof(MyConsoleLogger));
+
+            // services.AddScoped<ILog, MyConsoleLogger>();
+            // services.AddScoped(typeof(ILog), typeof(MyConsoleLogger));
+
+            IServiceProvider serviceProvider = services.BuildServiceProvider(); // get Serviceprovider Instance from ServiceCollectionContainerBuilderExtensions extension  Method
+            var logger = serviceProvider.GetService<ILog>();
+
+
+
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env , IOptions<IOptionsValues> optionsAccessor)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env , IOptions<IOptionsValues> optionsAccessor , ILoggerFactory loggerFactory)
         {
-            string websiteTitle = optionsAccessor.Value.Value1; // optionsAccessor parameter is optional
+            app.UseMyMiddleware(); // Adding  Custom  Middleware in Request  processing    PipeLine
 
             if (env.IsDevelopment()) //  Runtime exception  Handling
             {
@@ -72,9 +97,19 @@ namespace HelloMVCWorld
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapControllerRoute("Sessions", "Sessions/{action=Index}/{id?}", new { controller = "Session" });  // Custome  Routing  Defined
                 endpoints.MapDefaultControllerRoute(); //   Adds endpoints for controller actions to the Microsoft.AspNetCore.Routing.IEndpointRouteBuilder
                                                        //   and adds the default route {controller=Home}/{action=Index}/{id?}.
             });
+
+           
+            string websiteTitle = optionsAccessor.Value.Value1; // optionsAccessor parameter is optional
+
+            IServiceProvider services = app.ApplicationServices;  // Get  Serviceprovider Instance to get the Required  Services
+            var logger = services.GetService<ILog>();
+
+            loggerFactory.AddFile("Logs/mylog-{Date}.txt"); // Added Serilog File Provider to loggerFactory https://www.tutorialsteacher.com/core/aspnet-core-logging
+
         }
-    }
+}
 }

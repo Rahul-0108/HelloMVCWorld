@@ -20,7 +20,15 @@ namespace HelloMVCWorld
             Host.CreateDefaultBuilder(args)
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
+                    //webBuilder.UseWebRoot("MyNewFolderName");  // Use a different Folder for  Static  files 
+
                     webBuilder.UseStartup<Startup>();
                 });
+                //.ConfigureLogging(logBuilder =>  https://www.tutorialsteacher.com/core/aspnet-core-logging
+                //{
+                //    logBuilder.ClearProviders(); // removes all providers from LoggerFactory
+                //    logBuilder.AddConsole(); // Add Console  provider
+                //    logBuilder.AddTraceSource("Information, ActivityTracing"); // Add Trace listener provider
+                //});
     }
 }

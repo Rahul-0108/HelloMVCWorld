@@ -1,0 +1,21 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+   
+</head>
+<body>
+
+@RenderBody()
+
+@RenderSection("Section1", false); 
+    @if(!IsSectionDefined("Section1")) @* Section1 is optional , if not defined in child view , then Render this Data*@
+            {
+                <h1>Fallback  Data</h1>
+            }
+
+
+</body>
+</html>

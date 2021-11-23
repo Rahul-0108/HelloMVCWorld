@@ -2,7 +2,7 @@
 @* Shall Add  All  Tag  Helpers *@
 @model HelloMVCWorld.Models.WebUser
 @{
-    Layout = null;
+    Layout = null;  // Override the Default Layout
 }
 
 <!DOCTYPE html>
@@ -22,6 +22,7 @@
             @Html.RadioButton("FirstName", "M") @*Binds to  FirstNameProperty , If Selected , will Send Value M to  Server on  Submitting the Form*@
             @Html.RadioButton("FirstName", "F") @*Binds to  FirstNameProperty*@
 
+
             <select asp-items="@(Html.GetEnumSelectList<HelloMVCWorld.Models.DayOfWeek>())" asp-for="day"></select>  @* day is a  Property in  the WebUser Model whose value is  Binded  to  the  Select  Tag*@
         </div>
 
@@ -32,5 +33,11 @@
 
         <input type="submit" value="Submit" />
     }
+
+    @Html.ActionLink("Link Text", "ActionName", "ControllerName", new { id = 5 }); @* /ControllerName/ActionName/5 *@
+
+    <a href="@Url.Action("ActionName", "ControllerName", new { id = 5 })">Link Text</a> @* /ControllerName/ActionName/5 *@
+
+    <a asp-controller="ControllerName" asp-action="ActionName" asp-route-id="5">View</a> @* /ControllerName/ActionName/5 *@
 </body>
 </html>
